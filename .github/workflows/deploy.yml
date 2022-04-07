@@ -1,0 +1,20 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+    branch:
+      - master
+
+jobs:
+  deployment:
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        
+      - name: Run docker compose
+        run: |
+          docker-compose -f production.yml down
+          docker-compose -f production.yml build
+          docker-compose -f production.yml up -d
