@@ -1,0 +1,28 @@
+html,
+body {
+    font-family: 'Open Sans';
+}
+
+img {
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.hero-body {
+    padding: 0.5rem 1rem !important;
+}
+
+.led {
+ width: 25px;
+ height: 25px;
+ border-radius: 50%;
+ border-width: 0;
+}
+
+.led-on{
+    background-color: rgb(87, 223, 87);
+}
+
+.led-off{
+    background-color: gray;
+}

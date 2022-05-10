@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Remio | client</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/styles.css">
+</head>
+
+<body>
+    <section class="hero is-fullheight is-default is-bold">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="#">
+                            REMIO CLIENT
+                        </a>
+                        <span class="navbar-burger burger" data-target="navbarMenu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenu" class="navbar-menu">
+                        <div class="navbar-end">
+                            <div class="tabs is-right">
+                                <ul>
+                                    <li class="is-active"><a>Home</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-vcentered mt-3">
+                    <div class="column is-6 is-5-tablet">
+                        <figure class="image is-4by3">
+                            <img src="https://picsum.photos/800/600/?random" alt="Description" id="image">
+                        </figure>
+                    </div>
+                    <div class="column is-6 is-4-tablet">
+                        <div class="column is-mobile mb-5">
+                            <input 
+                                id="serverAddressInput"
+                                class="input is-info" 
+                                type="text"
+                                placeholder="http://example.com" 
+                                style="width:220px;"
+                            >          
+                            <button class="button is-primary" id="serverConnectBtn">
+                                <i class="fa-solid fa-server"></i>
+                            </button>
+                            <!-- <div class="control is-loading" style="max-width:0px;"></div>                     -->
+                        </div>
+                        <div class="columns is-mobile is-centered">
+                            <button class="led mx-2" id="ledSocket"></button>
+                            <p>Socket</p>
+                            <button class="led mx-4" id="ledSerial"></button>
+                            <p class="mr-3">Serial</p>
+                        </div>
+                        <div class="column">
+                            <div class="select">
+                                <select id="portSelect">
+                                  <option>Choose a Port</option>
+                                </select>
+                            </div>
+                            <button class="button is-light" id="connectSerialBtn">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                            <button class="button is-light" id="updateSerialBtn">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+                        </div>
+                        <div class="column is-full">
+                            <button class="button is-black" id="btn1">Button 1</button>
+                        </div>
+                        <div class="column is-full">
+                            <button class="button is-black" id="btn2">Button 2</button>
+                        </div>
+                        <div class="column is-full">
+                            <button class="button is-black" id="btn3">Button 3</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-foot mt-4 mb-5">
+            <div class="container">
+                <div class="tabs is-centered">
+                    <ul>
+                        <li><a>Some footer.</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+    <script src="./static/env.js"></script>
+    <script src="./static/js/bulma.js"></script>
+    <script src="./static/js/components.js"></script>
+    <script src="./static/js/routes.js"></script>
+    <script src="./static/js/index.js"></script>
+</body>
+
+</html>

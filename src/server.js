@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const socket = require("socket.io");
+const path = require("path");
 
 const { socketRouter } = require("./socket/config");
 
@@ -9,8 +10,12 @@ const port = 3000;
 
 app.use(morgan("combined"));
 
+// set static directories
+const dir = path.join(__dirname, 'public', 'static');
+app.use('/static', express.static(dir));
+
 app.get('/', (req, res) => {
-  res.send('Hello World Node!');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
 const server = app.listen(port, () => {
