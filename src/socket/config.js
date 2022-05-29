@@ -2,13 +2,12 @@ const routes = require("./routes");
 const RoomsManager = require("./rooms");
 var rooms = new RoomsManager();
 
+
 const socketRouter = (server) => {
 
     server.on("connection", (client) => {
-        console.log("welcome: ", client.id);
 
         client.on("disconnect", () => {
-            console.log("Bye: ", client.id);
 
             if(client.isWeb){
                 rooms.removeWebClient(client.room, client.id);
@@ -39,12 +38,28 @@ const socketRouter = (server) => {
             console.log("Client | Rooms: ", rooms.get())
         });
 
+        client.on(routes.DATA_WEB_SERVER, (data) => {
+            client.to(client.room).emit(routes.DATA_SERVER_WEB, data);
+            client.to(client.room).emit(routes.DATA_SERVER_CLIENT, data);
+        });
+
+        client.on(routes.DATA_CLIENT_SERVER, (data) => {
+            server.to(client.room).emit(routes.DATA_SERVER_WEB, data);
+        });
+
+        client.on(routes.DATA_OK_CLIENT_SERVER, () => {
+            server.to(client.room).emit(routes.DATA_OK_SERVER_WEB);
+        });
+
+        client.on(routes.DATA_OK_WEB_SERVER, () => {
+            server.to(client.room).emit(routes.DATA_OK_SERVER_CLIENT);
+        });
 
         client.on(routes.STREAM_CLIENT_SERVER, (frame) => {
             if(client.room){
                 server.to(client.room).emit(routes.STREAM_SERVER_WEB, frame);   
             }
-        })
+        });
     });
 
 

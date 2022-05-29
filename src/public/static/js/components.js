@@ -84,7 +84,7 @@ class CustomButton extends Base {
     }
 }
 
-class ToogleButton extends Base{
+class ToogleButton extends Base {
     constructor(elementId, onStyle, offStyle) {
         super(elementId);
         this.checked = false;
@@ -103,7 +103,6 @@ class ToogleButton extends Base{
         return this.checked;
     }
 
-
     updateStyle(){
         if(this.element){
            if(this.isChecked()){
@@ -116,7 +115,7 @@ class ToogleButton extends Base{
 
     toogle(){
         this.checked = !this.checked;
-        this.updateStyle()
+        this.updateStyle();
     }
 }
 

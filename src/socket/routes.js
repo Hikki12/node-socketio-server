@@ -11,7 +11,11 @@ module.exports = {
     DATA_SERVER_WEB : "data_server_web",
     DATA_SERVER_CLIENT : "data_server_client",
     DATA_CLIENT_SERVER : "data_client_server",
-    
+    DATA_OK_CLIENT_SERVER: "data_ok_client_server",
+    DATA_OK_SERVER_WEB: "data_ok_server_web",
+    DATA_OK_WEB_SERVER: "data_ok_web_server",
+    DATA_OK_SERVER_CLIENT: "data_ok_server_client",
+
     REQUEST_UPDATE_CLIENT_SERVER : "request_update_client_server",
     REQUEST_UPDATE_SERVER_WEB : "request_update_server_web",
     REQUEST_UPDATE_WEB_SERVER : "request_update_web_server",
