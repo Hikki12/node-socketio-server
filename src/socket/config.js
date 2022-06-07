@@ -22,7 +22,7 @@ const socketRouter = (server) => {
             console.log("Rooms: ", rooms.get())
         });
 
-        client.on(routes.JOIN_ROOM_WEB, (room) => {
+        client.on(routes.WEB_JOINS_ROOM_SERVER, (room) => {
             client.room = room;
             client.isWeb = true;
             client.join(room);
@@ -30,34 +30,38 @@ const socketRouter = (server) => {
             console.log("Web client | Rooms: ", rooms.get())
         });
 
-        client.on(routes.JOIN_ROOM_CLIENT, (room) => {
+        client.on(routes.EXPERIMENT_JOINS_ROOM_SERVER, (room) => {
             client.room = room;
             client.isWeb = false;
             client.join(room);
             rooms.addClient(room, client.id);
             console.log("Client | Rooms: ", rooms.get())
         });
+        client.on(routes.WEB_REQUESTS_DATA_SERVER, () => {
+            server.to(client.room).emit(routes.SERVER_REQUESTS_DATA_EXPERIMENT);
+        })
 
-        client.on(routes.DATA_WEB_SERVER, (data) => {
-            client.to(client.room).emit(routes.DATA_SERVER_WEB, data);
-            client.to(client.room).emit(routes.DATA_SERVER_CLIENT, data);
+        client.on(routes.WEB_SENDS_DATA_SERVER, (data) => {
+            client.to(client.room).emit(routes.SERVER_SENDS_DATA_WEB, data);
+            server.to(client.room).emit(routes.SERVER_SENDS_DATA_EXPERIMENT, data);
         });
 
-        client.on(routes.DATA_CLIENT_SERVER, (data) => {
-            server.to(client.room).emit(routes.DATA_SERVER_WEB, data);
+        client.on(routes.EXPERIMENT_SENDS_DATA_SERVER, (data) => {
+            server.to(client.room).emit(routes.SERVER_SENDS_DATA_WEB, data);
         });
 
-        client.on(routes.DATA_OK_CLIENT_SERVER, () => {
-            server.to(client.room).emit(routes.DATA_OK_SERVER_WEB);
+        client.on(routes.EXPERIMENT_NOTIFIES_DATA_WERE_RECEIVED_SERVER, () => {
+            server.to(client.room).emit(routes.SERVER_NOTIFIES_DATA_WERE_RECEIVED_WEB);
         });
 
-        client.on(routes.DATA_OK_WEB_SERVER, () => {
-            server.to(client.room).emit(routes.DATA_OK_SERVER_CLIENT);
+        client.on(routes.WEB_NOTIFIES_DATA_WERE_RECEIVED_SERVER, () => {
+            server.to(client.room).emit(routes.SERVER_NOTIFIES_DATA_WERE_RECEIVED_EXPERIMENT);
         });
 
-        client.on(routes.STREAM_CLIENT_SERVER, (frame) => {
+        client.on(routes.EXPERIMENT_STREAMS_VIDEO_SERVER, (frame) => {
             if(client.room){
-                server.to(client.room).emit(routes.STREAM_SERVER_WEB, frame);   
+                // console.log('frame: ', typeof frame);
+                server.to(client.room).emit(routes.SERVER_STREAMS_VIDEO_WEB, frame);   
             }
         });
     });

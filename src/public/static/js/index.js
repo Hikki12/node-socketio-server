@@ -52,9 +52,9 @@ class CustomMockup {
         this.socket.on("connect", this.updateConnectionStatus);
         this.socket.on("disconnect", this.updateConnectionStatus);
 
-        this.socket.on(STREAM_SERVER_WEB, this.updateVideo);
-        this.socket.on(DATA_SERVER_WEB, this.receiveVariables);
-        this.socket.on(DATA_OK_SERVER_WEB, this.streamVariablesOK);
+        this.socket.on(SERVER_STREAMS_VIDEO_WEB, this.updateVideo);
+        this.socket.on(SERVER_SENDS_DATA_WEB, this.receiveVariables);
+        this.socket.on(SERVER_NOTIFIES_DATA_WERE_RECEIVED_WEB, this.streamVariablesOK);
     }
 
     /** Configures timers */
@@ -125,7 +125,10 @@ class CustomMockup {
     updateConnectionStatus = () => {
         const status = this.socket.connected;
         this.ledSocket.setChecked(status);
-        if(status){this.socket.emit(JOIN_ROOM_WEB, MOCKUP_ROOM)}
+        if(status){
+            this.socket.emit(WEB_JOINS_ROOM_SERVER, MOCKUP_ROOM);
+            this.socket.emit(WEB_REQUESTS_DATA_SERVER);
+        }
     }
 
     /** 
@@ -135,7 +138,7 @@ class CustomMockup {
      receiveVariables = (data) => {
         this.variables.update(data);
         this.setVariablesOnGUI();
-        this.socket.emit(DATA_OK_WEB_SERVER);
+        this.socket.emit(WEB_NOTIFIES_DATA_WERE_RECEIVED_SERVER);
     }
 
     /**
@@ -144,11 +147,12 @@ class CustomMockup {
      * @param {*} value  - new value of the variable.
      */
     streamVariables = (key, value) => {
+        console.log('emittig --> ', this.variables.values());
         this.variables.set(key, value);
         this.variables.setUpdated(false);
 
         // Send variables changes to the server
-        this.socket.emit(DATA_WEB_SERVER, this.variables.values());
+        this.socket.emit(WEB_SENDS_DATA_SERVER, this.variables.values());
 
         // Lock the GUI a wait for a response
         this.lockGUI();
