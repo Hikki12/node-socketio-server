@@ -74,6 +74,17 @@ class RoomsManager {
             }
         }
     }
+
+    exists(roomId){
+        if(this.rooms[roomId]){
+            return this.rooms[roomId].web.length > 0;
+        }
+        return false;
+    }
+
+    hasUsers(room){
+        return this.rooms[room].length > 0;
+    }
 }
 
 module.exports = RoomsManager;

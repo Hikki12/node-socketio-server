@@ -9,6 +9,7 @@ const socketRouter = (server) => {
 
         client.on("disconnect", () => {
 
+
             if(client.isWeb){
                 rooms.removeWebClient(client.room, client.id);
             }else{
@@ -18,8 +19,13 @@ const socketRouter = (server) => {
             if(client.room){
                 client.leave(client.room);
             }
+            
+            if(!rooms.exists(client.room)){
+                server.to(client.room).emit(routes.SERVER_STREAMER_SET_PAUSE_EXPERIMENT, true);
+            }
 
-            console.log("Rooms: ", rooms.get())
+            console.log("disconnected exits: ", rooms.exists(client.room));
+            console.log("Client | Rooms: ", rooms.get())
         });
 
         client.on(routes.WEB_JOINS_ROOM_SERVER, (room) => {
@@ -27,7 +33,11 @@ const socketRouter = (server) => {
             client.isWeb = true;
             client.join(room);
             rooms.addWebClient(room, client.id);
-            console.log("Web client | Rooms: ", rooms.get())
+            console.log("Web client | Rooms: ", rooms.get());
+            console.log("room exits: ", rooms.exists(room))
+            if(rooms.exists(client.room)){
+                server.to(client.room).emit(routes.SERVER_STREAMER_SET_PAUSE_EXPERIMENT, false)
+            }
         });
 
         client.on(routes.EXPERIMENT_JOINS_ROOM_SERVER, (room) => {
